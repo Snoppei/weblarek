@@ -19,14 +19,14 @@ export class Cart {
     this.items = [];
   }
 
-getTotalPrice(): number {
-  return this.items.reduce((sum, item) => {
-    if (item.price === null) {
-      return sum;
-    }
-    return sum + item.price;
-  }, 0);
-}
+  getTotalPrice(): number {
+    return this.items.reduce((sum, item) => {
+      if (item.price === null) {
+        return sum;
+      }
+      return sum + item.price;
+    }, 0);
+  }
 
   getTotalQuantity(): number {
     return this.items.length;

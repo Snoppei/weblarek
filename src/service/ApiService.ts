@@ -14,9 +14,9 @@ export class ApiService {
       .then((response) => response.items);
   }
 
-    fetchProductById(productId: string): Promise<IProduct> {
-      return this.api.get<IProduct>(`/product/${productId}`);
-    }
+  fetchProductById(productId: string): Promise<IProduct> {
+    return this.api.get<IProduct>(`/product/${productId}`);
+  }
 
   sendOrder(buyer: IBuyer, items: IProduct[]): Promise<any> {
     let total = 0;

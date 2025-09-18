@@ -6,7 +6,12 @@ export class Buyer {
   private email: string = "";
   private phone: string = "";
 
-  setBuyerData(payment: TPayment, address: string, email: string, phone: string): void {
+  setBuyerData(
+    payment: TPayment,
+    address: string,
+    email: string,
+    phone: string
+  ): void {
     this.payment = payment;
     this.address = address;
     this.email = email;
