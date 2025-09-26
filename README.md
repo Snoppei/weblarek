@@ -192,3 +192,161 @@ Presenter - презентер содержит основную логику п
 `fetchProductById(productId: string): Promise<IProduct>` - GET запрос. Запрашивает товар по его идентификатору.  
 `sendOrder(buyer: IBuyer, items: IProduct[]): Promise<any>` - POST запрос. Отправляет на сервер данные введенные покупателем и выбранные товары.
 
+### Слой представления
+
+#### Класс Gallery
+Класс `Gallery` наследует класс `Component`. Отвечает за представление списка товаров на главной странице.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поле `catalogElement: HTMLElement` хранит DOM-элемент за который ответственен класс.  
+
+Методы класса:  
+`set catalog(items: HTMLElement[])` - присваивает карточки товара в DOM-элемент за который ответственен класс.
+
+#### Класс Header  
+Класс `Header` наследует класс `Component`. Отвечает за представление шапки.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`basketButton: HTMLButtonElement` - хранит DOM-элемент кнопки корзины в шапке.  
+`counterElement: HTMLElement` - хранит DOM-элемент счетчика товаров в корзине.
+
+Методы класса:
+`set counter(value: number)` - присваивает счетчику товаров значение.
+
+#### Класс Modal
+Класс `Modal` наследует класс `Component`. Класс ответственен за отображение модального окна.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`closeButtonElement: HTMLButtonElement` - хранит DOM-компонент кнопку закрытия модального окна.  
+`contentElement: HTMLElement` - хранит контент, отображаемый в модальном окне.  
+
+Методы класса:  
+`set content(content: HTMLElement)` - изменяет отображаемый контент в модальном окне.  
+
+#### Класс Form
+Класс `Form` наследуется от класса `Component`. Является обобщенным классом формы для реализации других форм в проекте. 
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`errorsElement: HTMLElement` - хранит DOM-элемент предназначенный для отображения ошибок.  
+`submitButton: HTMLButtonElement` - хранит DOM-элемент кнопки отправки формы.
+
+Методы класса:  
+`set error(value: string | string[])` - устанавливает ошибку в DOM-элемент, ответственный за отображение ошибки.
+`set validity(value: boolean)` - устанавливает отображение сообщения о валидности формы.  
+
+#### Класс OrderForm
+Класс `OrderForm` наследуется от класса `Form`. Ответственен за отображение формы оплаты и адреса.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`paymentCashButton: HTMLButtonElement` - хранит DOM-элемент кнопки выбора оплаты наличными.  
+`paymentCardButton: HTMLButtonElement` - хранит DOM-элемент кнопки выбора оплаты картой.  
+`addressInputElement: HTMLInputElement` - хранит DOM-элемент поля ввода адреса.  
+`nextButton: HTMLButtonElement` - хранит DOM-элемент кнопки подтверждения формы.
+
+Методы класса:  
+`set address(value: string)` - устанавливает адрес в поле ввода.  
+`set payment(value: TPayment)` - устанавливает способ оплаты.
+
+#### Класс ContactForm
+Класс `ContactForm` наследуется от общего класса `Form`. Ответственен за отображение формы контактных данных.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`emailInputElement: HTMLInputElement` - хранит DOM-элемент поля электронной почты.  
+`phoneInputElement: HTMLInputElement` - хранит DOM-элемент поля номера телефона.  
+`orderButton: HTMLButtonElement` - хранит DOM-элемент кнопки отправки формы.  
+
+Методы класса:  
+`set phone(value: string)` - устанавливает номер телефона в поле ввода.  
+`set email(value: string)` - устанавливает электронную почту в поле ввода.  
+
+#### Класс Basket
+Класс `Basket` наследует класс `Component`.
+Отвечает за отображение корзины в модальном окне.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`basketListItem: HTMLElement` - хранит DOM-элемент за который ответственен класс (DOM-элемент список).  
+`basketPriceElement: HTMLElement` - хранит DOM-элемент за который ответственен класс (стоимость корзины).
+`basketConfirmButton: HTMLButtonElement` - хранит DOM-элемент кнопку оформления заказа.
+
+Методы класса:  
+`set basketList(value: HTMLElement[])` - устанавливает список товаров.  
+`set basketPrice(value: number)` - устанавливает общую стоимость заказа.  
+
+#### Класс Card
+Общий класс `Card` отвественен за представление карточки товара. Используется для реализации остальных компонентов интерфейса где используется сущность карточки товара. Класс наследуется от `Component`.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`titleElement: HTMLElement` - хранит DOM-элемент который отображает название товара.  
+`priceElement: HTMLElement` - хранит DOM-элемент который отображает цену товара.  
+
+Методы класса:  
+`set title(value: string)` - установка названия товара в соответствующий DOM-элемент.  
+`set price(value: number | null)` - установка цены товара в соответствующий DOM-элемент.  
+
+#### Класс CardModal
+Класс `CardModal` наследует класс `Card`. Ответственен за отображение подробного описания товара в модальном окне.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`imageElement: HTMLElement` - хранит DOM-элемент изображения товара.  
+`categoryElement: HTMLElement` - хранит DOM-элемент категории товара.  
+`desriptionElement: HTMLElement` - хранит DOM-элемент который отображает описание товара.
+`buyButton: HTMLElement` - хранит DOM-элемент кнопки покупки товара (добавления в корзину).  
+
+Методы класса:  
+`set category(value: string)` - установить категорию товара в соответствующий DOM-элемент.  
+`set image(value: string)` - установить картинку в соответствующий элемент.  
+`set description(value: string)` - установить описание в соответствующий элемент.  
+
+#### Класс CardBasket  
+Класс `CardBasket` наследует класс `Card`. Ответственен за отображение товара в корзине.
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`indexElement: HTMLElement` - хранит DOM-элемент отображающий порядковый номер товара в корзине.  
+`deleteButton: HTMLButtonElement` - хранит DOM-элемент кнопки удаления товара из корзины.  
+
+Методы класса:  
+`set index(value: number)` - устанавливает порядковый номер товара в корзине.  
+
+#### Класс CardCatalog
+Класс `CardCatalog` наследует класс `Card`. Ответственен за отображение товара в каталоге товаров (галерее).
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`categoryElement: HTMLElement` - хранит DOM-элемент отображающий категорию товара.  
+`imageElement: HTMLElement` - хранит DOM-элемент отвественный за отображение изображения товара.  
+
+Методы класса:  
+`set category(value: string)` - установить категорию товара в соответствующий DOM-элемент.  
+`set image(value: string)` - установить картинку в соответствующий элемент.  
+
+#### Класс OrderSuccess  
+Класс `OrderSuccess` наследует класс `Component`. Ответственен за отображение контента модального окна (успешный заказ).
+
+Конструктор `constructor(container: HTMLElement)` принимает DOM-элемент за который ответственен класс.
+
+Поля класса:  
+`successButtonElement: HTMLElement` - хранит DOM-элемент кнопки для закрытия модального окна.  
+`orderPriceElement: HTMLElement` - хранит DOM-элемент отображающий итоговую стоимость купленных товаров.  
+
+Методы класса:  
+`set price(value: number)` - установить стоимость в соответствующий DOM-элемент.
