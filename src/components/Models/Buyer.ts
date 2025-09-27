@@ -35,18 +35,17 @@ export class Buyer {
   }
 
   validateBuyerData(): IValidateBuyer {
-    return {
-      payment: this.payment !== "" ? "" : "Необходимо выбрать способ оплаты",
-      address: this.address !== "" ? "" : "Необходимо указать адрес",
-      email: this.email !== "" ? "" : "Необходимо указать электронную почту",
-      phone: this.phone !== "" ? "" : "Необходимо указать телефон",
-      buyer:
-        this.payment !== "" &&
-        this.email !== "" &&
-        this.phone !== "" &&
-        this.address !== "",
-    };
-  }
+  const check = (value: string, message: string) => 
+    value.trim() !== "" ? "" : message;
+
+  return {
+    payment: check(this.payment, "Необходимо выбрать способ оплаты"),
+    address: check(this.address, "Необходимо указать адрес"),
+    email: check(this.email, "Необходимо указать электронную почту"),
+    phone: check(this.phone, "Необходимо указать телефон"),
+    buyer: [this.payment, this.address, this.email, this.phone].every(v => v !== "")
+  };
+}
 
   // validateData(): boolean {
   //   const emailValid = /\S+@\S+\.\S+/.test(this.email);
