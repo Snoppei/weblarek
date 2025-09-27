@@ -31,14 +31,6 @@ const catalogModel = new Catalog(events);
 const cartModel = new Cart(events);
 const buyerModel = new Buyer(events);
 
-// запрос на товары
-try {
-  const products: IProduct[] = await apiService.fetchProducts();
-  catalogModel.setItems(products);
-} catch (err) {
-  console.error("Ошибка загрузки товаров:", err);
-}
-
 const headerContainer = ensureElement<HTMLElement>(".header");
 const galleryContainer = ensureElement<HTMLElement>(".gallery");
 const modalContainer = ensureElement<HTMLElement>(".modal");
@@ -71,7 +63,7 @@ const cardModalView = new CardModal(cloneTemplate(cardModalTpl), {
       cardModalView.buyButtonState = "buy";
     } else {
       cartModel.addItem(openedItem);
-      cardModalView.buyButtonState = "remove";
+      cardModalView.buyButtonState = "delete";
     }
     events.emit("modal:close");
   },
@@ -86,7 +78,6 @@ function renderCatalog() {
   });
   galleryView.catalog = catalogCards;
 }
-renderCatalog();
 
 const basketView = new Basket(cloneTemplate(basketTpl), events);
 
@@ -131,6 +122,7 @@ events.on("cart:change", () => {
 events.on("catalog:change", () => renderCatalog());
 
 events.on("basket:open", () => {
+  renderBasket();
   modalView.content = basketView.render();
   modalView.show();
 });
@@ -209,3 +201,11 @@ events.on("success:open", async () => {
 });
 
 events.on("success:close", () => modalView.hide());
+
+// запрос на товары
+try {
+  const products: IProduct[] = await apiService.fetchProducts();
+  catalogModel.setItems(products);
+} catch (err) {
+  console.error("Ошибка загрузки товаров:", err);
+}
