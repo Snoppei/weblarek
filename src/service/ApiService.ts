@@ -4,14 +4,19 @@ import { IProduct, IBuyer, IOrderPostRequest } from "../types";
 export class ApiService {
   private api: Api;
 
-  constructor(apiInstance: Api) {
+  constructor(apiInstance: Api, readonly cdnURL: string) {
     this.api = apiInstance;
   }
 
   fetchProducts(): Promise<IProduct[]> {
     return this.api
-      .get<{ total: number; items: IProduct[] }>("/product")
-      .then((response) => response.items);
+      .get<{ total: number; items: IProduct[] }>("/product/")
+      .then((response) =>
+        response.items.map((item) => ({
+          ...item,
+          image: (this.cdnURL + item.image).replace(/\.svg$/i, ".png"),
+        }))
+      );
   }
 
   fetchProductById(productId: string): Promise<IProduct> {
@@ -37,6 +42,6 @@ export class ApiService {
       items: itemsIds,
     };
 
-    return this.api.post("/order", orderData);
+    return this.api.post("/order/", orderData);
   }
 }
