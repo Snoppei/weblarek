@@ -1,27 +1,24 @@
-import { TPayment, IBuyer } from "../../types";
+import { TPayment, IBuyer, IValidateBuyer } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class Buyer {
-  private payment: TPayment | null = null;
-  private address: string = "";
-  private email: string = "";
-  private phone: string = "";
+  public payment: TPayment = "";
+  public address: string = "";
+  public email: string = "";
+  public phone: string = "";
 
-  setBuyerData(
-    payment: TPayment,
-    address: string,
-    email: string,
-    phone: string
+  constructor(protected events: IEvents) {}
+
+  setBuyerData(buyerData: Partial<IBuyer>
   ): void {
-    this.payment = payment;
-    this.address = address;
-    this.email = email;
-    this.phone = phone;
+    this.payment = buyerData.payment ?? this.payment;
+    this.address = buyerData.address ?? this.address;
+    this.email = buyerData.email ?? this.email;
+    this.phone = buyerData.phone ?? this.phone;
+    this.events.emit("buyer:change");
   }
 
   getBuyerData(): IBuyer {
-    if (!this.payment) {
-      throw new Error("Данные покупателя не заданы");
-    }
     return {
       payment: this.payment,
       address: this.address,
@@ -31,18 +28,33 @@ export class Buyer {
   }
 
   clearBuyerData(): void {
-    this.payment = null;
+    this.payment = "";
     this.address = "";
     this.email = "";
     this.phone = "";
+    this.events.emit("buyer:change");
   }
 
-  isValidData(): boolean {
-    const emailValid = /\S+@\S+\.\S+/.test(this.email);
-    const phoneValid = /^\+?[0-9]{11}$/.test(this.phone);
-    const addressValid = this.address.trim().length > 0;
-    const paymentValid = this.payment !== null;
-
-    return emailValid && phoneValid && addressValid && paymentValid;
+  validateBuyerData(): IValidateBuyer {
+    return {
+      payment: this.payment !== "" ? "" : "Необходимо выбрать способ оплаты",
+      address: this.address !== "" ? "" : "Необходимо указать адрес",
+      email: this.email !== "" ? "" : "Необходимо указать электронную почту",
+      phone: this.phone !== "" ? "" : "Необходимо указать телефон",
+      buyer:
+        this.payment !== "" &&
+        this.email !== "" &&
+        this.phone !== "" &&
+        this.address !== ""
+    };
   }
+
+  // validateData(): boolean {
+  //   const emailValid = /\S+@\S+\.\S+/.test(this.email);
+  //   const phoneValid = /^\+?[0-9]{11}$/.test(this.phone);
+  //   const addressValid = this.address.trim().length > 0;
+  //   const paymentValid = this.payment !== null;
+
+  //   return emailValid && phoneValid && addressValid && paymentValid;
+  // }
 }
