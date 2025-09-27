@@ -36,3 +36,15 @@ export interface IProductsResponse {
   total: number;
   items: IProduct[];
 }
+
+export interface ICardActions {
+  onClick: () => void;
+}
+
+export interface IValidateBuyer {
+  payment: string;
+  email: string;
+  phone: string;
+  address: string;
+  buyer: boolean;
+}
