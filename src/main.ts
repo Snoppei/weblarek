@@ -135,7 +135,9 @@ events.on("basket:open", () => {
   modalView.show();
 });
 
-events.on("basket:removeProduct", (item: IProduct) => cartModel.deleteItem(item));
+events.on("basket:removeProduct", (item: IProduct) =>
+  cartModel.deleteItem(item)
+);
 
 events.on("order:openForm", () => {
   orderFormView.errors = "";

@@ -9,8 +9,7 @@ export class Buyer {
 
   constructor(protected events: IEvents) {}
 
-  setBuyerData(buyerData: Partial<IBuyer>
-  ): void {
+  setBuyerData(buyerData: Partial<IBuyer>): void {
     this.payment = buyerData.payment ?? this.payment;
     this.address = buyerData.address ?? this.address;
     this.email = buyerData.email ?? this.email;
@@ -45,7 +44,7 @@ export class Buyer {
         this.payment !== "" &&
         this.email !== "" &&
         this.phone !== "" &&
-        this.address !== ""
+        this.address !== "",
     };
   }
 
